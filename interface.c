@@ -1555,6 +1555,11 @@ void do_view_user_photo  (struct command *command, int arg_num, struct arg args[
   }
 }
 
+void do_view_msg (struct command *command, int arg_num, struct arg args[], struct in_ev *ev) {
+    if (ev) { ev->refcnt ++; }
+    tgl_do_view_msg (TLS, &args[0].msg_id, print_success_gw, ev);
+}
+
 /* }}} */
 
 /* {{{ ANOTHER MESSAGES FUNCTIONS */
@@ -1774,6 +1779,7 @@ struct command commands[MAX_COMMANDS_SIZE] = {
   {"view_video", {ca_msg_id, ca_none}, do_open_video, "view_video <msg-id>\tDownloads file to downloads dirs. Then tries to open it with system default action", NULL},
   {"view_video_thumb", {ca_msg_id, ca_none}, do_open_video_thumb, "view_video_thumb <msg-id>\tDownloads file to downloads dirs. Then tries to open it with system default action", NULL},
   {"view", {ca_msg_id, ca_none}, do_open_any, "view <msg-id>\tTries to view message contents", NULL},
+  {"view_msg", {ca_msg_id, ca_none}, do_view_msg, "view_msg <msg-id>\view message", NULL},
   {"visualize_key", {ca_secret_chat, ca_none}, do_visualize_key, "visualize_key <secret chat>\tPrints visualization of encryption key (first 16 bytes sha1 of it in fact)", NULL}
 };
 
